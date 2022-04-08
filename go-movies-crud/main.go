@@ -40,12 +40,13 @@ func getMovie(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	
+
 	m := make(map[string]string)
 
 	m["message"] = "Movie not found"
 	w.WriteHeader(http.StatusNotFound)
 	json.NewEncoder(w).Encode(m)
+
 }
 
 func createMovie(w http.ResponseWriter, r *http.Request) {
@@ -55,6 +56,7 @@ func createMovie(w http.ResponseWriter, r *http.Request) {
 	movie.ID = strconv.Itoa(rand.Intn(10000000))
 	movies = append(movies, movie)
 	json.NewEncoder(w).Encode(movie)
+
 }
 
 func updateMovie(w http.ResponseWriter, r *http.Request) {
@@ -95,7 +97,7 @@ func main() {
 	movies = append(movies, Movie{ID: "3", Isbn: "789", Title: "The Go Programming Language", Director: &Director{FirstName: "Robert", LastName: "Griesemer"}})
 	movies = append(movies, Movie{ID: "4", Isbn: "101112", Title: "The Go Programming Language", Director: &Director{FirstName: "Robert", LastName: "Griesemer"}})
 
-	r.HandleFunc("/movies", getMovies)
+	r.HandleFunc("/movies", getMovies).Methods("GET")
 	r.HandleFunc("/movies/{id}", getMovie).Methods("GET")
 	r.HandleFunc("/movies", createMovie).Methods("POST")
 	r.HandleFunc("/movies/{id}", updateMovie).Methods("PUT")
@@ -104,5 +106,6 @@ func main() {
 	http.Handle("/", r)
 
 	fmt.Println("Server started on port 8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Println(http.ListenAndServe(":8080", nil))
+	// log.Fatal(http.ListenAndServe(":8080", nil))
 }
