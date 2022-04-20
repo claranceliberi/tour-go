@@ -2,7 +2,7 @@ package config
 
 import (
 	"github.com/jinzhu/gorm" // indirect
-	"github.com/go-sql-driver/mysql" // indirect
+	_"github.com/go-sql-driver/mysql" // indirect
 )
 
 var (
@@ -20,6 +20,6 @@ func Connect(){
 
 }
 
-func getDB() *gorm.DB{
+func GetDB() *gorm.DB{
 	return db;
 }
